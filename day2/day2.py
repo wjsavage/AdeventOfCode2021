@@ -1,34 +1,27 @@
 with open("input") as file:
-    lines = [str(line.rstrip()) for line in file.readlines()]
+    lines = [str(line.rstrip()).split(" ") for line in file.readlines()]
+
+commands = [(c, int(x)) for c, x in lines]
 
 # A
-fwd = 0
-depth = 0
+# answer: 1692075
+fwd, depth = 0, 0
 
-for line in lines:
-    command, x = line.split(" ")
-    command = str(command)
-    x = int(x)
+for command, x in commands:
     if command == "forward":
         fwd += x
     elif command == "down":
         depth += x
     elif command == "up":
         depth -= x
-    else:
-        print(line)
 
-print(fwd * depth)
+print("A:", fwd * depth)
 
-#B
-fwd = 0
-aim = 0
-depth = 0
+# B
+# answer: 1749524700
+fwd, depth, aim, = 0, 0, 0
 
-for line in lines:
-    command, x = line.split(" ")
-    command = str(command)
-    x = int(x)
+for command, x in commands:
     if command == "forward":
         fwd += x
         depth += aim * x
@@ -36,7 +29,5 @@ for line in lines:
         aim += x
     elif command == "up":
         aim -= x
-    else:
-        print(line)
 
-print(fwd * depth)
+print("B:", fwd * depth)
