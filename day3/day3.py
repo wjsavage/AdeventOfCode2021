@@ -11,24 +11,22 @@ for i in range(len(lines[0])):
         digits.append(line[i])
     cols.append(digits)
 
-# print(cols)
-#
-# bin = ""
-# bin2 = ""
-# for col in cols:
-#     c = Counter(col)
-#     if c['0'] < c['1']:
-#         bin += '1'
-#         bin2 += '0'
-#     else:
-#         bin += '0'
-#         bin2 += '1'
-#
-# print(bin)
-# gamma = int(bin, 2)
-# eps = int(bin2, 2)
-# print(gamma * eps)
+bin = ""
+bin2 = ""
+for col in cols:
+    c = Counter(col)
+    if c['0'] < c['1']:
+        bin += '1'
+        bin2 += '0'
+    else:
+        bin += '0'
+        bin2 += '1'
 
+gamma = int(bin, 2)
+eps = int(bin2, 2)
+print("A:", gamma * eps)
+
+# B
 import re
 
 
@@ -68,7 +66,6 @@ rows = lines.copy()
 i = 0
 
 while rows:
-    print(rows)
     if i > len(lines[0]) - 1:
         break
 
@@ -80,7 +77,6 @@ while rows:
     if '1' not in c.keys():
         regex += '0'
         break
-    print(i , c)
     if c['0'] <= c['1']:
         regex += '0'
     elif c['1'] == c['0']:
@@ -96,7 +92,5 @@ p = re.compile('^'+regex)
 rows = [line for line in lines if p.match(line)]
 co = rows[0]
 
-
-print(ox, co)
-print(int(ox, 2) * int(co, 2))
+print("B:", int(ox, 2) * int(co, 2))
 
