@@ -4,12 +4,7 @@ import re
 with open("input") as file:
     lines = [str(line.rstrip()) for line in file.readlines()]
 
-cols = []
-for i in range(len(lines[0])):
-    digits = []
-    for line in lines:
-        digits.append(line[i])
-    cols.append(digits)
+cols = list(zip(*lines))
 
 # A
 # answer: 3912944
@@ -37,7 +32,6 @@ def part_b(a, b):
     while rows:
         p = re.compile('^' + regex)
         rows = list(filter(p.match, lines))
-
         count = Counter([row[len(regex)] for row in rows])
         if len(count.keys()) == 1:
             break
@@ -54,4 +48,3 @@ ox = part_b('0', '1')
 co = part_b('1', '0')
 
 print("B:", int(ox, 2) * int(co, 2))
-
