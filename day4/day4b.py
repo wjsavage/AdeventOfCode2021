@@ -1,5 +1,8 @@
 from itertools import chain
 
+# B
+# Answer: 1284
+
 with open("input") as file:
     lines = [str(line.rstrip()) for line in file.readlines()]
 
@@ -32,7 +35,7 @@ for h, call in enumerate(calls):
                         this_rounds_winners.append(i)
 
         for k in range(5):
-            if check_winning_list(set([row[k] for row in board])):
+            if check_winning_list([row[k] for row in board]):
                 this_rounds_winners.append(i)
 
     remaining_boards = [x for x in remaining_boards if x not in this_rounds_winners]

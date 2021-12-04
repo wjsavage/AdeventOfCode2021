@@ -53,3 +53,6 @@ print(winning_call)
 rem = list(chain.from_iterable(boards[winning_board]))
 rems = sum([int(x) for x in rem if x != 'x'])
 print(rems*int(winning_call))
+
+# winning call: 14
+# answer: 11536
