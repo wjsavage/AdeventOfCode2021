@@ -3,10 +3,9 @@ import numpy as np
 with open("input") as file:
     lines = [str(line.rstrip()).split(" ") for line in file.readlines()]
 
-lines = [(line[0].split(','), line[2].split(',')) for line in lines]
-coords = [sorted([(int(seg[0]), int(seg[1])) for seg in line]) for line in lines]
-grid_size = max([max(a[0], b[0]) for a, b in coords])
-grid = np.full((grid_size + 1, grid_size + 1), 0, dtype=int)
+
+def is_hoz_or_vert_line(line):
+    return line[0][0] == line[1][0] or line[0][1] == line[1][1]
 
 
 def gen_points_on_line(a, b, use_diags=False):
@@ -20,20 +19,22 @@ def gen_points_on_line(a, b, use_diags=False):
     return []
 
 
-points = [point for line in coords for point in gen_points_on_line(line[0], line[1])]
-for point in points:
-    grid[point[1], point[0]] += 1
+def add_points_to_grid_with_count(grid, points):
+    for point in points:
+        grid[point[1], point[0]] += 1
+    return np.bincount(grid.copy().flatten())
 
-counts = np.bincount(grid.flatten())
-print("A:", sum(counts[2:]))
 
+lines = [(line[0].split(','), line[2].split(',')) for line in lines]
+coords = [sorted([(int(seg[0]), int(seg[1])) for seg in line]) for line in lines]
+grid_size = max([max(a[0], b[0]) for a, b in coords])
 grid = np.full((grid_size + 1, grid_size + 1), 0, dtype=int)
-points = [point for line in coords for point in gen_points_on_line(line[0], line[1], True)]
-for point in points:
-    grid[point[1], point[0]] += 1
 
-counts = np.bincount(grid.flatten())
-print("B:", sum(counts[2:]))
+points = [point for line in coords for point in gen_points_on_line(line[0], line[1]) if is_hoz_or_vert_line(line)]
+diag_points = [point for line in coords for point in gen_points_on_line(line[0], line[1], True)
+               if not is_hoz_or_vert_line(line)]
+countsA, countsB = add_points_to_grid_with_count(grid, points), add_points_to_grid_with_count(grid, diag_points)
 
-# A: 6005
-# B: 23864
+print("A:", sum(countsA[2:]), "B:", sum(countsB[2:]))
+
+# A: 6005 B: 23864
