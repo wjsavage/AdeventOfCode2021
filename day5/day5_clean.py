@@ -1,4 +1,4 @@
-import numpy as np
+from collections import Counter
 
 with open("input") as file:
     lines = [str(line.rstrip()).split(" ") for line in file.readlines()]
@@ -15,20 +15,12 @@ def gen_points_on_line(a, b, use_diags=False):
     return []
 
 
-def add_points_to_grid_with_count(grid, points):
-    for point in points:
-        grid[point[1], point[0]] += 1
-    return np.bincount(grid.copy().flatten())
-
-
 lines = [(line[0].split(','), line[2].split(',')) for line in lines]
 coords = [sorted([(int(seg[0]), int(seg[1])) for seg in line]) for line in lines]
-grid_size = max([max(a[0], b[0]) for a, b in coords])
-grid = np.full((grid_size + 1, grid_size + 1), 0, dtype=int)
-
 orth_points = [point for line in coords for point in gen_points_on_line(line[0], line[1])]
 diag_points = [point for line in coords for point in gen_points_on_line(line[0], line[1], True)]
-countsA, countsB = add_points_to_grid_with_count(grid, orth_points), add_points_to_grid_with_count(grid, diag_points)
 
-print("A:", sum(countsA[2:]), "B:", sum(countsB[2:]))
+print("A:", len([y for x, y in Counter(orth_points).items() if y > 1]))
+print("B:", len([y for x, y in Counter(orth_points + diag_points).items() if y > 1]))
+
 # A: 6005 B: 23864
