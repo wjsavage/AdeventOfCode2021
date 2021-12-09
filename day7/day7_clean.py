@@ -1,4 +1,3 @@
-from collections import Counter
 from math import floor, ceil
 from statistics import median, mean
 
