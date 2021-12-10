@@ -31,25 +31,24 @@ for line in lines:
         if char in chunk_map.keys():
             open_queue.append(char)
         else:
-            chuck_last = open_queue.pop()
-            if char == chunk_map[chuck_last]:
-                pass
-            else:
+            if char != chunk_map[open_queue.pop()]:
                 corrupted = True
                 line_scores.append(point_map_a[char])
+
         if corrupted: break
     if not corrupted:
         incompletes.append(open_queue)
 
+# A: 166191
 print("A:", sum(line_scores))
 
+from functools import reduce
 incomplete_scores = []
 for stack in incompletes:
-    score = 0
-    for opener in stack[::-1]:
-        score = 5 * score + point_map_b[opener]
-    incomplete_scores.append(score)
+    scores = [0] + [point_map_b[r] for r in stack[::-1]]
+    incomplete_scores.append(reduce((lambda x, y: 5 * x + y), scores))
 
 incomplete_scores.sort()
 i = int((len(incomplete_scores) + 1) / 2) - 1
-print(incomplete_scores[i])
+# B: 1152088313
+print("B:", incomplete_scores[i])
