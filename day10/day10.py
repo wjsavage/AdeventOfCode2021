@@ -47,11 +47,9 @@ incomplete_scores = []
 for stack in incompletes:
     score = 0
     for opener in stack[::-1]:
-        score *= 5
-        score += point_map_b[opener]
+        score = 5 * score + point_map_b[opener]
     incomplete_scores.append(score)
 
 incomplete_scores.sort()
-i = int((len(incomplete_scores) + 1)/2) - 1
+i = int((len(incomplete_scores) + 1) / 2) - 1
 print(incomplete_scores[i])
-
