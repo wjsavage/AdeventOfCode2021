@@ -31,7 +31,7 @@ def bfs_basin(i, j):
     return len(visited)
 
 
-risk_levels, basins = [], []
+basins = []
 
 for i in range(n_rows):
     for j in range(n_cols):
@@ -40,11 +40,10 @@ for i in range(n_rows):
         neigh_val = [rows[i][j] for i, j in neighbours]
 
         if n < min(neigh_val):
-            risk_levels.append(n + 1)
             basins.append((i, j))
 
 # A: 550
-print("A:", sum(risk_levels))
+print("A:", sum([rows[a][b] + 1 for a, b in basins]))
 
 from functools import reduce
 basin_sizes = sorted([bfs_basin(i, j) for i, j in basins], reverse=True)
