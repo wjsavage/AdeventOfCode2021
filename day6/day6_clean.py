@@ -4,15 +4,27 @@ with open("input") as file:
     line = [str(line.rstrip()).split(",") for line in file.readlines()]
     school = Counter([int(x) for x in line[0]])
 
-for i in range(256):
+
+def dec_days(school):
     new_school = defaultdict(int)
     for k, v in school.items():
-        if k-1 < 0:
+        new_k = k - 1
+        if new_k < 0:
             new_school[8] += v
             new_school[6] += v
         else:
-            new_school[k-1] += v
+            new_school[new_k] += v
 
-    school = new_school
+    return new_school
 
-print(sum(school.values()))
+
+def school_size_on_day_n(school, n):
+    for _ in range(n):
+        school = dec_days(school)
+    return sum(school.values())
+
+# A: 355386
+print("A:", school_size_on_day_n(school, 80))
+# B: 1613415325809
+print("B:", school_size_on_day_n(school, 256))
+
