@@ -2,7 +2,6 @@ with open("input") as file:
     rows = [list(map(int, list(line.rstrip()))) for line in file.readlines()]
 
 n_cols, n_rows = len(rows[0]), len(rows)
-# print(*rows, sep='\n')
 
 
 def get_neighbours(i, j):
@@ -27,43 +26,33 @@ def get_neighbours(i, j):
     return neighbours
 
 
-# print([rows[i][j] for i, j in get_neighbours(1,1)])
-
-simal = -1
 total_flashes = 0
-for i in range(1_000_000):
+for i in range(1_000):
     flashed = set()
     ready_to_flash = set()
 
+    if i == 100:
+        print("A:", total_flashes)
+
     if all(n == 0 for row in rows for n in row):
-        print(i)
+        print("B:", i)
         break
-    # First, the energy level of each octopus increases by 1.
+
     for k in range(n_rows):
         for l in range(n_cols):
             rows[k][l] += 1
             if rows[k][l] > 9:
-                ready_to_flash.add((k,l))
-
-    # print(*rows, sep='\n')
+                ready_to_flash.add((k, l))
 
     while ready_to_flash:
-        # any octopus with an energy level greater than 9 flashes
         octo = ready_to_flash.pop()
-
         flashed.add(octo)
         rows[octo[0]][octo[1]] = 0
-        neighs = get_neighbours(octo[0], octo[1])
+        neighs = get_neighbours(*octo)
         for k, l in neighs:
             if (k, l) not in flashed:
                 rows[k][l] += 1
                 if rows[k][l] > 9:
                     ready_to_flash.add((k,l))
 
-        # print()
-        # print(*rows, sep='\n')
-
     total_flashes += len(flashed)
-print(total_flashes)
-# 354
-# 5607
