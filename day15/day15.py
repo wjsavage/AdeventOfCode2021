@@ -33,7 +33,6 @@ def search_grid(a, grid):
                 heapq.heappush(queue, (new_cost, x1, y1))
 
 
-
 def inc(x, i):
     y = x + i
     return y if y < 10 else y % 9
@@ -57,6 +56,3 @@ print("A:", search_grid(start, rows))
 big_grid = gen_grid_multiple(5, rows)
 # B: 2778
 print("B:", search_grid(start, big_grid))
-
-
-
